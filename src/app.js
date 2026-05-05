@@ -6,7 +6,7 @@ const productRoutes = require('./routes/productRoutes');
 const menuRoutes = require('./routes/menuRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
-
+const passwordRoutes = require('./routes/passwordRoutes');
 const app = express();
 
 app.use(cors());
@@ -21,5 +21,6 @@ app.use('/api/products', productRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/auth', passwordRoutes);
 
 module.exports = app;
