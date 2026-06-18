@@ -13,20 +13,20 @@ const transporter = nodemailer.createTransport({
 const resetCodes = {};
 
 const forgotPassword = (req, res) => {
-  const { matricule, email } = req.body;
+  const { email } = req.body;
 
-  if (!matricule || !email) {
-    return res.status(400).json({ message: 'Matricule et email sont obligatoires' });
+  if (!email) {
+    return res.status(400).json({ message: 'Email est obligatoire' });
   }
 
   db.query(
-    'SELECT * FROM users WHERE matricule = ? AND email = ?',
-    [matricule, email],
+    'SELECT * FROM users WHERE email = ?',
+    [email],
     (err, results) => {
       if (err) return res.status(500).json({ message: 'Erreur serveur', error: err.message });
 
       if (results.length === 0) {
-        return res.status(404).json({ message: 'Matricule ou email incorrect' });
+        return res.status(404).json({ message: 'Email incorrect ou introuvable' });
       }
 
       const code = Math.floor(1000 + Math.random() * 9000).toString();
