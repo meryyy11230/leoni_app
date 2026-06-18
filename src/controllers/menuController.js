@@ -55,7 +55,7 @@ const publishMenu = (req, res) => {
 
 // Récupérer menu du jour
 const getTodayMenu = (req, res) => {
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toLocaleDateString('en-CA');
 
   const sql = `
     SELECT p.*, c.name AS category_name
