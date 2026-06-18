@@ -4,11 +4,11 @@ const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
   try {
-    const { matricule, password } = req.body;
+    const { matricule, password, username, email } = req.body;
 
-    if (!matricule || !password) {
+    if (!matricule || !password || !username || !email) {
       return res.status(400).json({
-        message: 'Matricule et mot de passe sont obligatoires'
+        message: 'Tous les champs sont obligatoires'
       });
     }
 
@@ -52,8 +52,8 @@ const register = async (req, res) => {
             const fullName = `${employee.nom} ${employee.prenom}`;
 
             db.query(
-              'INSERT INTO users (employee_reference_id, matricule, name, password, role) VALUES (?, ?, ?, ?, ?)',
-              [employee.id, matricule, fullName, hashedPassword, 'employee'],
+              'INSERT INTO users (employee_reference_id, matricule, name, username, email, password, role) VALUES (?, ?, ?, ?, ?, ?, ?)',
+              [employee.id, matricule, fullName, username, email, hashedPassword, 'employee'],
               (err, result) => {
                 if (err) {
                   return res.status(500).json({
@@ -68,6 +68,8 @@ const register = async (req, res) => {
                     id: result.insertId,
                     matricule: matricule,
                     name: fullName,
+                    username: username,
+                    email: email,
                     role: 'employee'
                   }
                 });
